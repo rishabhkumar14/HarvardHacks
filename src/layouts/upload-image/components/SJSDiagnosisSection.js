@@ -159,6 +159,7 @@ StartDiagnosisCard.propTypes = {
 const ChatWindow = ({ isActive }) => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
+  const [currentStep, setCurrentStep] = useState(0);
 
   // Initialize chat with time period question when activated
   React.useEffect(() => {
@@ -174,17 +175,36 @@ const ChatWindow = ({ isActive }) => {
 
   const handleSend = () => {
     if (inputText.trim()) {
+      // Add user message to chat
       setMessages([...messages, { sender: "user", text: inputText }]);
-      // Simulate AI response
+
+      // Move to next step
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+
+      // Determine next system message based on current step
       setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          {
-            sender: "system",
-            text: "Thank you for your response. Our AI is analyzing the provided information about Stevens-Johnson syndrome.",
-          },
-        ]);
+        if (nextStep === 1) {
+          // After first question about duration, ask about image type
+          setMessages((prev) => [
+            ...prev,
+            {
+              sender: "system",
+              text: "What type of image will you be uploading? (regular or fluorescent)",
+            },
+          ]);
+        } else {
+          // For subsequent steps
+          setMessages((prev) => [
+            ...prev,
+            {
+              sender: "system",
+              text: "Thank you for your response. Our AI is analyzing the provided information about Stevens-Johnson syndrome.",
+            },
+          ]);
+        }
       }, 1000);
+
       setInputText("");
     }
   };
