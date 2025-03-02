@@ -298,7 +298,7 @@ const ChatWindow = ({ isActive }) => {
               disabled={!isActive}
               sx={{ height: "56px" }}
             >
-              <Icon>send</Icon>
+              <Icon color="white">send</Icon>
             </Button>
           </Grid>
         </Grid>
