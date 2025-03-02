@@ -1,0 +1,3 @@
+fastapi[all]
+numpy<2.0
+Pillow
