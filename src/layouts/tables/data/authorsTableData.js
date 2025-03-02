@@ -170,6 +170,101 @@ export default function data() {
           </MDTypography>
         ),
       },
+      {
+        patient: <Patient image={team2} name="John Michael" id="P-1001" />,
+        diagnosis: <Diagnosis stage="SJS - Mild" description="Initial stage" />,
+        severity: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Mild" color="success" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        admission: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            23/04/23
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            View Details
+          </MDTypography>
+        ),
+      },
+      {
+        patient: <Patient image={team3} name="Alexa Liras" id="P-1002" />,
+        diagnosis: <Diagnosis stage="SJS - Moderate" description="Under observation" />,
+        severity: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Moderate" color="warning" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        admission: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            11/01/23
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            View Details
+          </MDTypography>
+        ),
+      },
+      {
+        patient: <Patient image={team4} name="Laurent Perrier" id="P-1003" />,
+        diagnosis: <Diagnosis stage="SJS - Severe" description="ICU required" />,
+        severity: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Severe" color="error" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        admission: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            19/09/22
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            View Details
+          </MDTypography>
+        ),
+      },
+      {
+        patient: <Patient image={team3} name="Michael Levi" id="P-1004" />,
+        diagnosis: <Diagnosis stage="SJS - Recovering" description="Improving condition" />,
+        severity: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Recovering" color="info" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        admission: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            24/12/21
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            View Details
+          </MDTypography>
+        ),
+      },
+      {
+        patient: <Patient image={team3} name="Richard Gran" id="P-1005" />,
+        diagnosis: <Diagnosis stage="SJS - Critical" description="Emergency intervention" />,
+        severity: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Critical" color="error" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+        admission: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            04/10/23
+          </MDTypography>
+        ),
+        action: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            View Details
+          </MDTypography>
+        ),
+      },
     ],
   };
 }
