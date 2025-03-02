@@ -29,3 +29,6 @@ env/
 venv/
 */env/
 */venv/
+
+*.h5
+
