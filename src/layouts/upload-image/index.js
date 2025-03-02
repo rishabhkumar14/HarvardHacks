@@ -32,6 +32,7 @@ import Invoices from "layouts/billing/components/Invoices";
 import BillingInformation from "layouts/billing/components/BillingInformation";
 import Transactions from "layouts/billing/components/Transactions";
 import SJSDiagnosisSection from "layouts/upload-image/components/SJSDiagnosisSection";
+import FileUpload from "./components/FileUpload";
 
 function Billing() {
   return (
@@ -48,21 +49,21 @@ function Billing() {
 
             {/* Qiming */}
             <Grid item xs={12} lg={4}>
-              <Invoices />
+              <FileUpload />
             </Grid>
           </Grid>
         </MDBox>
 
-        <MDBox mb={3}>
-          {/* <Grid container spacing={3}>
+        {/* <MDBox mb={3}>
+          <Grid container spacing={3}>
             <Grid item xs={12} md={7}>
               <BillingInformation />
             </Grid>
             <Grid item xs={12} md={5}>
               <Transactions />
             </Grid>
-          </Grid> */}
-        </MDBox>
+          </Grid>
+        </MDBox> */}
       </MDBox>
       <Footer />
     </DashboardLayout>

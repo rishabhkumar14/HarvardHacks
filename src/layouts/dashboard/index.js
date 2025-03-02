@@ -1,43 +1,195 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
+import React from "react";
+import PropTypes from "prop-types";
 import Grid from "@mui/material/Grid";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import Button from "@mui/material/Button";
+import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
+import SendIcon from "@mui/icons-material/Send";
+import { Avatar, Box } from "@mui/material";
 
-// Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+// SJSTENSeverityChart Component
+function SJSTENSeverityChart({ color, title, description, date }) {
+  const data = [
+    { day: 1, severity: 2 },
+    { day: 2, severity: 4 },
+    { day: 3, severity: 3 },
+    { day: 4, severity: 5 },
+    { day: 5, severity: 4 },
+  ];
 
-// Dashboard components
-import Projects from "layouts/dashboard/components/Projects";
-import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h6" component="div" color={color}>
+          {title}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {description}
+        </Typography>
+        <LineChart width={300} height={200} data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="day" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="severity" stroke="#8884d8" />
+        </LineChart>
+        <Typography variant="caption" display="block">
+          {date}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}
 
-function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
+SJSTENSeverityChart.propTypes = {
+  color: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+};
 
+function PatientInfoCard() {
+  return (
+    <Card>
+      <CardContent>
+        {/* Flex container to place Avatar and title side by side */}
+        <Box display="flex" alignItems="center" marginBottom={2}>
+          <Avatar
+            alt="John Doe"
+            src="/path/to/avatar.jpg"
+            sx={{
+              width: 56,
+              height: 56,
+              marginRight: 2,
+              marginLeft: 4,
+              marginTop: 4,
+              marginBottom: 3,
+            }}
+          />
+          <Typography variant="h6" component="div">
+            Last Diagnosed Patient Info:
+          </Typography>
+        </Box>
+
+        <Typography variant="body2">
+          <b>Name:</b> John Doe
+          <br />
+          <b>Age:</b> 45 &emsp;&emsp;&emsp;&emsp;&emsp;<b>Patient Since:</b> 02/12/2021
+          <br />
+          <b>Gender:</b> Male&emsp;&emsp;&emsp;<b>Last Visit:</b> 03/12/2021
+          <br />
+          <b>Blood Type:</b> A+&emsp;&emsp;<b>Next Visit:</b> 04/12/2021
+          <br />
+          <b>Allergies:</b> Penicillin, Sulfa Drugs, Allopurinol
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}
+// DiagnosisResultsCard Component
+function DiagnosisResultsCard() {
+  return (
+    <Card>
+      <CardContent>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{
+            marginRight: 2,
+            marginTop: 4,
+            marginBottom: 3,
+          }}
+        >
+          Diagnosis Results
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            marginBottom: 3,
+          }}
+        >
+          Diagnosis: Stevens-Johnson Syndrome (SJS)
+          <br />
+          Confidence: 92%
+          <br />
+          Key Symptoms: Skin rash, fever, blistering
+          <br />
+          Recommended Tests: Skin biopsy, blood tests
+          <br />
+          Treatment initiated: IV fluids, corticosteroids
+          <br />
+          Prognosis: Guarded, monitor closely
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}
+
+// TreatmentPlanCard Component
+function TreatmentPlanCard() {
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h6" component="div">
+          Treatment Plan
+        </Typography>
+        <Typography variant="body2">
+          1. Discontinue suspected trigger medication
+          <br />
+          2. Administer IV fluids and electrolytes
+          <br />
+          3. Apply topical corticosteroids to affected areas
+          <br />
+          4. Monitor for signs of infection
+          <br />
+          5. Pain management with opioid analgesics
+          <br />
+          6. Ophthalmological evaluation and care
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ImageUploadCard Component
+function ImageUploadCard() {
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant="h6" component="div">
+          Diagnosis with Image Upload
+        </Typography>
+        <></>
+        <Button
+          size="small"
+          variant="contained"
+          endIcon={<SendIcon color="white" />}
+          style={{ marginTop: "15px", marginBottom: "15px" }}
+        >
+          <Typography variant="body2" style={{ color: "white" }}>
+            Go to Image Segmentation Tool
+          </Typography>
+          <input type="file" hidden />
+        </Button>
+        <Typography variant="body2" style={{ marginTop: "10px" }}>
+          Upload patient images and chat with our trained LLM agent for a complete and through
+          analysis and documentation.
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}
+
+function SJSTENDashboard() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -46,14 +198,14 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
+                color="warning"
+                icon="sick"
+                title="SJS/TEN Severity"
+                count="Moderate"
                 percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
+                  color: "error",
+                  amount: "SCORTEN: 2",
+                  label: "High Risk",
                 }}
               />
             </MDBox>
@@ -61,13 +213,13 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
+                icon="timeline"
+                title="Time Since Onset"
+                count="3 days"
                 percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "than last month",
+                  color: "warning",
+                  amount: "Critical Period",
+                  label: "Monitor closely",
                 }}
               />
             </MDBox>
@@ -75,14 +227,14 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Revenue"
-                count="34k"
+                color="error"
+                icon="percent"
+                title="BSA Affected"
+                count="15%"
                 percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
+                  color: "error",
+                  amount: "TEN",
+                  label: "Classification",
                 }}
               />
             </MDBox>
@@ -90,14 +242,14 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
+                color="info"
+                icon="medication"
+                title="Suspected Trigger"
+                count="Allopurinol"
                 percentage={{
                   color: "success",
-                  amount: "",
-                  label: "Just updated",
+                  amount: "ALDEN: 6",
+                  label: "Probable",
                 }}
               />
             </MDBox>
@@ -107,39 +259,48 @@ function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
+                <SJSTENSeverityChart
+                  color="warning"
+                  title="SJS/TEN Progression"
+                  description="Patient's condition over time"
+                  date="Updated 2 hours ago"
                 />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
+                {/* <ReportsLineChart
                   color="dark"
                   title="completed tasks"
                   description="Last Campaign Performance"
                   date="just updated"
-                  chart={tasks}
-                />
+                  chart={{
+                    labels: ["Feb 24", "Feb 25", "Feb 26", "Feb 27", "Feb 28", "Mar 1", "Mar 2"],
+                    datasets: {
+                      label: "Completed Tasks",
+                      data: [3, 5, 2, 4, 7, 6, 5],
+                    },
+                  }}
+                /> */}
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
+                <PatientInfoCard />
+                {/* <DefaultInfoCard
+                    icon="account_balance"
+                    title="salary"
+                    description="Belong Interactive"
+                    value="+$2000"
+                  />
+                </Grid> */}
+                {/* <DefaultInfoCard
+                    icon="paypal"
+                    title="paypal"
+                    description="Freelance Payment"
+                    value="$455.00"
+                  /> */}
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
+                <DiagnosisResultsCard />
               </MDBox>
             </Grid>
           </Grid>
@@ -147,10 +308,10 @@ function Dashboard() {
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>
-              <Projects />
+              <TreatmentPlanCard />
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
+              <ImageUploadCard />
             </Grid>
           </Grid>
         </MDBox>
@@ -160,4 +321,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default SJSTENDashboard;
