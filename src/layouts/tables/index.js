@@ -69,13 +69,6 @@ function Tables() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <ul>
-                  {data.map((item, index) => (
-                    <li key={index}>
-                      <MDTypography>{item}</MDTypography>
-                    </li>
-                  ))}
-                </ul>
                 <MDTypography variant="h6" color="white">
                   Patient Logs
                 </MDTypography>
