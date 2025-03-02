@@ -33,7 +33,7 @@ import BillingInformation from "layouts/billing/components/BillingInformation";
 import Transactions from "layouts/billing/components/Transactions";
 import SJSDiagnosisSection from "layouts/upload-image/components/SJSDiagnosisSection";
 
-function Billing() {
+function UplpadImage() {
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
@@ -48,7 +48,22 @@ function Billing() {
 
             {/* Qiming */}
             <Grid item xs={12} lg={4}>
-              <Invoices />
+              <MDTypography>Please choose your image type here</MDTypography>
+              <FormGroup>
+                <FormControlLabel control={<Checkbox defaultChecked />} label="Regular Image" />
+                <FormControlLabel control={<Checkbox />} label="Stain Image" />
+              </FormGroup>
+              <Box
+                sx={{
+                  border: "2px dashed gray", // Dashed border
+                  borderRadius: "8px", // Rounded corners
+                  padding: "16px", // Padding inside box
+                  textAlign: "center", // Center align content
+                }}
+              >
+                {" "}
+                <ImageUploadCard />
+              </Box>
             </Grid>
           </Grid>
         </MDBox>
@@ -69,4 +84,4 @@ function Billing() {
   );
 }
 
-export default Billing;
+export default UplpadImage;
