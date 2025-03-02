@@ -46,7 +46,7 @@ function Notifications() {
   // Diagnostic results state
   const [diagnosticResults, setDiagnosticResults] = useState({
     diagnosis: "Stevens-Johnson Syndrome",
-    confidence: 92,
+    confidence: 65,
     severity: "Moderate",
     scorten: 2,
     aldenScore: 6,
@@ -217,36 +217,35 @@ function Notifications() {
           <Grid item xs={12} md={6} lg={4}>
             <Card>
               <MDBox p={3}>
-                <MDTypography variant="h5" mb={2}>
+                <MDTypography variant="h4" mb={2}>
                   Key Symptoms
                 </MDTypography>
-                <TableContainer>
-                  <Table>
-                    <TableBody>
-                      {keySymptoms.map((symptom, index) => (
-                        <TableRow key={index}>
-                          <TableCell>
-                            <MDTypography variant="button" fontWeight="medium">
-                              {symptom.symptom}
-                            </MDTypography>
-                          </TableCell>
-                          <TableCell>
-                            <Chip
-                              label={symptom.severity}
-                              color={getSeverityColor(symptom.severity)}
-                              size="small"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <MDTypography variant="caption" color="text">
-                              {symptom.area || symptom.value || symptom.details}
-                            </MDTypography>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+
+                <Table>
+                  <TableBody>
+                    {keySymptoms.map((symptom, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <MDTypography variant="button" fontWeight="medium">
+                            {symptom.symptom}
+                          </MDTypography>
+                        </TableCell>
+                        <TableCell>
+                          <Chip
+                            label={symptom.severity}
+                            color={getSeverityColor(symptom.severity)}
+                            size="small"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <MDTypography variant="caption" color="text">
+                            {symptom.area || symptom.value || symptom.details}
+                          </MDTypography>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </MDBox>
             </Card>
           </Grid>
