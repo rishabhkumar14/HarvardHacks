@@ -23,17 +23,23 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
+
 import MasterCard from "examples/Cards/MasterCard";
 import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import { Box } from "@mui/material";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 // Billing page components
-import PaymentMethod from "layouts/billing/components/PaymentMethod";
-import Invoices from "layouts/billing/components/Invoices";
+import PaymentMethod from "layouts/upload-image/components/PaymentMethod";
+import UploadImage from "layouts/upload-image/components/ImageUploadCard";
 import BillingInformation from "layouts/billing/components/BillingInformation";
-import Transactions from "layouts/billing/components/Transactions";
+import Transactions from "layouts/upload-image/components/Transactions";
 import SJSDiagnosisSection from "layouts/upload-image/components/SJSDiagnosisSection";
+import MDTypography from "components/MDTypography";
 
-function UplpadImage() {
+function Billing() {
   return (
     <DashboardLayout>
       <DashboardNavbar absolute isMini />
@@ -48,21 +54,26 @@ function UplpadImage() {
 
             {/* Qiming */}
             <Grid item xs={12} lg={4}>
-              <MDTypography>Please choose your image type here</MDTypography>
+              <MDTypography>Please specify your image type here</MDTypography>
               <FormGroup>
                 <FormControlLabel control={<Checkbox defaultChecked />} label="Regular Image" />
-                <FormControlLabel control={<Checkbox />} label="Stain Image" />
+                <FormControlLabel control={<Checkbox defaultChecked />} label="Stain Image" />
               </FormGroup>
               <Box
                 sx={{
                   border: "2px dashed gray", // Dashed border
                   borderRadius: "8px", // Rounded corners
-                  padding: "16px", // Padding inside box
+                  padding: "16px", // Inner spacing
                   textAlign: "center", // Center align content
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minHeight: "250px", // Adjust height as needed
+                  position: "relative",
                 }}
               >
-                {" "}
-                <ImageUploadCard />
+                <UploadImage />
               </Box>
             </Grid>
           </Grid>
@@ -84,4 +95,4 @@ function UplpadImage() {
   );
 }
 
-export default UplpadImage;
+export default Billing;
