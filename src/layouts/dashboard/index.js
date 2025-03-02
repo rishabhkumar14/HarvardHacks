@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import SendIcon from "@mui/icons-material/Send";
 import { Avatar, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 // SJSTENSeverityChart Component
 function SJSTENSeverityChart({ color, title, description, date }) {
@@ -162,6 +163,7 @@ function TreatmentPlanCard() {
 
 // ImageUploadCard Component
 function ImageUploadCard() {
+  const navigate = useNavigate();
   return (
     <Card>
       <CardContent>
@@ -174,6 +176,7 @@ function ImageUploadCard() {
           variant="contained"
           endIcon={<SendIcon color="white" />}
           style={{ marginTop: "15px", marginBottom: "15px" }}
+          onClick={() => navigate("/SJS-Diagnosis-Tool")}
         >
           <Typography variant="body2" style={{ color: "white" }}>
             Go to Image Segmentation Tool

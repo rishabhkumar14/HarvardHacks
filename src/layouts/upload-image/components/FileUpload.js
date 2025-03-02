@@ -11,6 +11,8 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
+import { useNavigate } from "react-router-dom";
+
 // You can use the same pattern image as in SJSDiagnosisSection
 const patternImage = "assets/images/illustrations/pattern-tree.svg";
 
@@ -19,12 +21,16 @@ const FileUpload = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  // prediction
+  const [prediction, setPrediction] = useState(null);
+  const navigate = useNavigate();
 
   const handleFileChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       setFile(event.target.files[0]);
       setUploadComplete(false);
       setErrorMessage("");
+      setPrediction(null);
     }
   };
 
@@ -47,16 +53,41 @@ const FileUpload = () => {
     }
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!file) {
       setErrorMessage("Please select a file to upload");
       return;
     }
 
-    // Simulate the upload process
-    setTimeout(() => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      // Get the response from the backend
+      const response = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log("data is: ", data);
+
+      if (response.ok) {
+        setPrediction(data);
+        console.log("Prediction:", data);
+
+        setTimeout(() => {
+          setUploadComplete(true);
+        }, 1500);
+
+        navigate("/notifications");
+      } else {
+        setErrorMessage(data.error || "Prediction failed");
+      }
       setUploadComplete(true);
-    }, 1500);
+    } catch (error) {
+      setErrorMessage("Failed to connect to the server");
+    }
 
     console.log("Uploading file:", file);
   };

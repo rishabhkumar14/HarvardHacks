@@ -7,12 +7,12 @@
 =========================================================
 */
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import Icon from "@mui/material/Icon";
+import CircularProgress from "@mui/material/CircularProgress";
 import LinearProgress from "@mui/material/LinearProgress";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -96,242 +96,282 @@ function Notifications() {
     }
   };
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Set a 2-second timer before switching to the main content
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer); // Cleanup in case the component unmounts early
+  }, []);
+
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        {/* Patient Information Header */}
-        <Grid container spacing={3} mb={3}>
-          <Grid item xs={12}>
-            <Card>
-              <MDBox p={3} display="flex" justifyContent="space-between" alignItems="center">
-                <MDBox>
-                  <MDTypography variant="h5" fontWeight="medium">
-                    Patient: {patientData.name}
-                  </MDTypography>
-                  <MDTypography variant="body2" color="text">
-                    ID: {patientData.id} | {patientData.age} years, {patientData.gender} | Admitted:{" "}
-                    {patientData.admissionDate}
-                  </MDTypography>
+      {loading ? (
+        <MDBox
+          pt={6}
+          pb={3}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="70vh"
+        >
+          <Grid container justifyContent="center">
+            <Grid item xs={12} md={6} lg={4}>
+              <Card sx={{ textAlign: "center", p: 4 }}>
+                <MDBox mb={2}>
+                  <CircularProgress size={60} color="info" />
                 </MDBox>
-                <MDButton variant="gradient" color="info">
-                  View Full History
-                </MDButton>
-              </MDBox>
-            </Card>
-          </Grid>
-        </Grid>
-
-        {/* Diagnosis Summary */}
-        <Grid container spacing={3} mb={3}>
-          <Grid item xs={12} md={6} lg={8}>
-            <Card>
-              <MDBox p={3}>
-                <MDTypography variant="h5" mb={2}>
-                  Diagnosis Summary
+                <MDTypography variant="h5" fontWeight="bold">
+                  Model Analyzing...
                 </MDTypography>
-                <MDAlert color="info" mb={2}>
-                  <MDTypography variant="h6" fontWeight="medium" color="white">
-                    {diagnosticResults.diagnosis} detected with {diagnosticResults.confidence}%
-                    confidence
+                <MDTypography variant="body2" color="text.secondary">
+                  Please wait while we process your uploaded image.
+                </MDTypography>
+                <MDBox mt={3} width="75%" sx={{ textAlign: "center" }}>
+                  <LinearProgress color="info" sx={{ width: "75%" }} />
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+      ) : (
+        <MDBox pt={6} pb={3}>
+          {/* Patient Information Header */}
+          <Grid container spacing={3} mb={3}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox p={3} display="flex" justifyContent="space-between" alignItems="center">
+                  <MDBox>
+                    <MDTypography variant="h5" fontWeight="medium">
+                      Patient: {patientData.name}
+                    </MDTypography>
+                    <MDTypography variant="body2" color="text">
+                      ID: {patientData.id} | {patientData.age} years, {patientData.gender} |
+                      Admitted: {patientData.admissionDate}
+                    </MDTypography>
+                  </MDBox>
+                  <MDButton variant="gradient" color="info">
+                    View Full History
+                  </MDButton>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+
+          {/* Diagnosis Summary */}
+          <Grid container spacing={3} mb={3}>
+            <Grid item xs={12} md={6} lg={8}>
+              <Card>
+                <MDBox p={3}>
+                  <MDTypography variant="h5" mb={2}>
+                    Diagnosis Summary
                   </MDTypography>
-                </MDAlert>
+                  <MDAlert color="info" mb={2}>
+                    <MDTypography variant="h6" fontWeight="medium" color="white">
+                      {diagnosticResults.diagnosis} detected with {diagnosticResults.confidence}%
+                      confidence
+                    </MDTypography>
+                  </MDAlert>
 
-                <Grid container spacing={2} mb={2}>
-                  <Grid item xs={12} md={6}>
-                    <MDBox mb={1}>
-                      <MDTypography variant="button" fontWeight="bold">
-                        Severity Assessment
-                      </MDTypography>
-                    </MDBox>
-                    <MDBox display="flex" alignItems="center">
-                      <MDTypography variant="caption" color="text" mr={1}>
-                        {diagnosticResults.severity}
-                      </MDTypography>
-                      <MDBox width="100%">
-                        <LinearProgress
-                          variant="determinate"
-                          value={diagnosticResults.confidence}
-                          color={getSeverityColor(diagnosticResults.severity)}
-                        />
+                  <Grid container spacing={2} mb={2}>
+                    <Grid item xs={12} md={6}>
+                      <MDBox mb={1}>
+                        <MDTypography variant="button" fontWeight="bold">
+                          Severity Assessment
+                        </MDTypography>
                       </MDBox>
-                    </MDBox>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <MDBox mb={1}>
-                      <MDTypography variant="button" fontWeight="bold">
-                        Disease Progression
-                      </MDTypography>
-                    </MDBox>
-                    <Chip
-                      label={diagnosticResults.progression}
-                      color={diagnosticResults.progression === "Stable" ? "success" : "warning"}
-                      size="small"
-                    />
-                  </Grid>
-                </Grid>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={6} md={3}>
-                    <MDBox textAlign="center" p={1} bgcolor="#f8f9fa" borderRadius="lg">
-                      <MDTypography variant="h6">{diagnosticResults.scorten}</MDTypography>
-                      <MDTypography variant="caption" color="text">
-                        SCORTEN
-                      </MDTypography>
-                    </MDBox>
-                  </Grid>
-                  <Grid item xs={6} md={3}>
-                    <MDBox textAlign="center" p={1} bgcolor="#f8f9fa" borderRadius="lg">
-                      <MDTypography variant="h6">{diagnosticResults.aldenScore}</MDTypography>
-                      <MDTypography variant="caption" color="text">
-                        ALDEN Score
-                      </MDTypography>
-                    </MDBox>
-                  </Grid>
-                  <Grid item xs={6} md={3}>
-                    <MDBox textAlign="center" p={1} bgcolor="#f8f9fa" borderRadius="lg">
-                      <MDTypography
-                        variant="h6"
-                        color={getSeverityColor(diagnosticResults.riskLevel)}
-                      >
-                        {diagnosticResults.riskLevel}
-                      </MDTypography>
-                      <MDTypography variant="caption" color="text">
-                        Risk Level
-                      </MDTypography>
-                    </MDBox>
-                  </Grid>
-                  <Grid item xs={6} md={3}>
-                    <MDBox textAlign="center" p={1} bgcolor="#f8f9fa" borderRadius="lg">
-                      <MDTypography variant="h6">10%</MDTypography>
-                      <MDTypography variant="caption" color="text">
-                        BSA Affected
-                      </MDTypography>
-                    </MDBox>
-                  </Grid>
-                </Grid>
-              </MDBox>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <Card>
-              <MDBox p={3}>
-                <MDTypography variant="h4" mb={2}>
-                  Key Symptoms
-                </MDTypography>
-
-                <Table>
-                  <TableBody>
-                    {keySymptoms.map((symptom, index) => (
-                      <TableRow key={index}>
-                        <TableCell>
-                          <MDTypography variant="button" fontWeight="medium">
-                            {symptom.symptom}
-                          </MDTypography>
-                        </TableCell>
-                        <TableCell>
-                          <Chip
-                            label={symptom.severity}
-                            color={getSeverityColor(symptom.severity)}
-                            size="small"
+                      <MDBox display="flex" alignItems="center">
+                        <MDTypography variant="caption" color="text" mr={1}>
+                          {diagnosticResults.severity}
+                        </MDTypography>
+                        <MDBox width="100%">
+                          <LinearProgress
+                            variant="determinate"
+                            value={diagnosticResults.confidence}
+                            color={getSeverityColor(diagnosticResults.severity)}
                           />
-                        </TableCell>
-                        <TableCell>
-                          <MDTypography variant="caption" color="text">
-                            {symptom.area || symptom.value || symptom.details}
-                          </MDTypography>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </MDBox>
-            </Card>
-          </Grid>
-        </Grid>
+                        </MDBox>
+                      </MDBox>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <MDBox mb={1}>
+                        <MDTypography variant="button" fontWeight="bold">
+                          Disease Progression
+                        </MDTypography>
+                      </MDBox>
+                      <Chip
+                        label={diagnosticResults.progression}
+                        color={diagnosticResults.progression === "Stable" ? "success" : "warning"}
+                        size="small"
+                      />
+                    </Grid>
+                  </Grid>
 
-        {/* Medication Triggers and Treatment */}
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Card>
-              <MDBox p={3}>
-                <MDTypography variant="h5" mb={2}>
-                  Potential Medication Triggers
-                </MDTypography>
-                <TableContainer>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6} md={3}>
+                      <MDBox textAlign="center" p={1} bgcolor="#f8f9fa" borderRadius="lg">
+                        <MDTypography variant="h6">{diagnosticResults.scorten}</MDTypography>
+                        <MDTypography variant="caption" color="text">
+                          SCORTEN
+                        </MDTypography>
+                      </MDBox>
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                      <MDBox textAlign="center" p={1} bgcolor="#f8f9fa" borderRadius="lg">
+                        <MDTypography variant="h6">{diagnosticResults.aldenScore}</MDTypography>
+                        <MDTypography variant="caption" color="text">
+                          ALDEN Score
+                        </MDTypography>
+                      </MDBox>
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                      <MDBox textAlign="center" p={1} bgcolor="#f8f9fa" borderRadius="lg">
+                        <MDTypography
+                          variant="h6"
+                          color={getSeverityColor(diagnosticResults.riskLevel)}
+                        >
+                          {diagnosticResults.riskLevel}
+                        </MDTypography>
+                        <MDTypography variant="caption" color="text">
+                          Risk Level
+                        </MDTypography>
+                      </MDBox>
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                      <MDBox textAlign="center" p={1} bgcolor="#f8f9fa" borderRadius="lg">
+                        <MDTypography variant="h6">10%</MDTypography>
+                        <MDTypography variant="caption" color="text">
+                          BSA Affected
+                        </MDTypography>
+                      </MDBox>
+                    </Grid>
+                  </Grid>
+                </MDBox>
+              </Card>
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={4}>
+              <Card>
+                <MDBox p={3}>
+                  <MDTypography variant="h4" mb={2}>
+                    Key Symptoms
+                  </MDTypography>
+
                   <Table>
                     <TableBody>
-                      {potentialTriggers.map((trigger, index) => (
+                      {keySymptoms.map((symptom, index) => (
                         <TableRow key={index}>
                           <TableCell>
-                            <MDTypography variant="button" fontWeight="medium" color="error">
-                              {trigger.medication}
+                            <MDTypography variant="button" fontWeight="medium">
+                              {symptom.symptom}
                             </MDTypography>
                           </TableCell>
                           <TableCell>
                             <Chip
-                              label={trigger.likelihood}
-                              color={getSeverityColor(trigger.likelihood)}
+                              label={symptom.severity}
+                              color={getSeverityColor(symptom.severity)}
                               size="small"
                             />
                           </TableCell>
                           <TableCell>
                             <MDTypography variant="caption" color="text">
-                              {trigger.timeCourse}
+                              {symptom.area || symptom.value || symptom.details}
                             </MDTypography>
                           </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
-                </TableContainer>
-              </MDBox>
-            </Card>
+                </MDBox>
+              </Card>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <Card>
-              <MDBox p={3}>
-                <MDTypography variant="h5" mb={2}>
-                  Treatment Recommendations
-                </MDTypography>
-                <TableContainer>
-                  <Table>
-                    <TableBody>
-                      {treatmentRecommendations.map((treatment, index) => (
-                        <TableRow key={index}>
-                          <TableCell width="20%">
-                            <MDTypography variant="caption" fontWeight="medium">
-                              {treatment.type}
-                            </MDTypography>
-                          </TableCell>
-                          <TableCell>
-                            <MDTypography variant="button">{treatment.action}</MDTypography>
-                          </TableCell>
-                          <TableCell width="20%">
-                            <Chip
-                              label={treatment.priority}
-                              color={getSeverityColor(treatment.priority)}
-                              size="small"
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <MDBox mt={2} display="flex" justifyContent="flex-end">
-                  <MDButton variant="gradient" color="success">
-                    Generate Treatment Plan
-                  </MDButton>
+          {/* Medication Triggers and Treatment */}
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Card>
+                <MDBox p={3}>
+                  <MDTypography variant="h5" mb={2}>
+                    Potential Medication Triggers
+                  </MDTypography>
+                  <TableContainer>
+                    <Table>
+                      <TableBody>
+                        {potentialTriggers.map((trigger, index) => (
+                          <TableRow key={index}>
+                            <TableCell>
+                              <MDTypography variant="button" fontWeight="medium" color="error">
+                                {trigger.medication}
+                              </MDTypography>
+                            </TableCell>
+                            <TableCell>
+                              <Chip
+                                label={trigger.likelihood}
+                                color={getSeverityColor(trigger.likelihood)}
+                                size="small"
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <MDTypography variant="caption" color="text">
+                                {trigger.timeCourse}
+                              </MDTypography>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 </MDBox>
-              </MDBox>
-            </Card>
+              </Card>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Card>
+                <MDBox p={3}>
+                  <MDTypography variant="h5" mb={2}>
+                    Treatment Recommendations
+                  </MDTypography>
+                  <TableContainer>
+                    <Table>
+                      <TableBody>
+                        {treatmentRecommendations.map((treatment, index) => (
+                          <TableRow key={index}>
+                            <TableCell width="20%">
+                              <MDTypography variant="caption" fontWeight="medium">
+                                {treatment.type}
+                              </MDTypography>
+                            </TableCell>
+                            <TableCell>
+                              <MDTypography variant="button">{treatment.action}</MDTypography>
+                            </TableCell>
+                            <TableCell width="20%">
+                              <Chip
+                                label={treatment.priority}
+                                color={getSeverityColor(treatment.priority)}
+                                size="small"
+                              />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <MDBox mt={2} display="flex" justifyContent="flex-end">
+                    <MDButton variant="gradient" color="success">
+                      Generate Treatment Plan
+                    </MDButton>
+                  </MDBox>
+                </MDBox>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </MDBox>
-      <Footer />
+        </MDBox>
+      )}
+      {/* <DashboardNavbar /> */}
     </DashboardLayout>
   );
 }

@@ -26,12 +26,29 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
+import { useEffect, useState } from "react";
 
 // Data
 import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function Tables() {
+  const [message, setMessage] = useState("");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // Fetch the message from FastAPI
+    fetch("http://127.0.0.1:8000/")
+      .then((response) => response.json())
+      .then((data) => setMessage(data.message))
+      .catch((error) => console.error("Error fetching data:", error));
+
+    // Fetch the data array from FastAPI
+    fetch("http://127.0.0.1:8000/data")
+      .then((response) => response.json())
+      .then((data) => setData(data.data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
   const { columns, rows } = authorsTableData();
   const { columns: pColumns, rows: pRows } = projectsTableData();
 
@@ -52,6 +69,13 @@ function Tables() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
+                <ul>
+                  {data.map((item, index) => (
+                    <li key={index}>
+                      <MDTypography>{item}</MDTypography>
+                    </li>
+                  ))}
+                </ul>
                 <MDTypography variant="h6" color="white">
                   Patient Logs
                 </MDTypography>

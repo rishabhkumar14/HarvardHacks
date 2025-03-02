@@ -42,13 +42,13 @@ import Billing from "layouts/billing";
 // import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
+import Loading from "layouts/loading";
 import UploadImage from "layouts/upload-image";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
 import { Upload } from "@mui/icons-material";
+import { ImportOutlined } from "@ant-design/icons";
 
 const routes = [
   {
@@ -67,22 +67,16 @@ const routes = [
     route: "/SJS-Diagnosis-Tool",
     component: <UploadImage />,
   },
-  {
-    type: "collapse",
-    name: "Patient Logs",
-    key: "tables",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/Patient-logs",
-    component: <Tables />,
-  },
+
   // {
   //   type: "collapse",
-  //   name: "Billing",
-  //   key: "billing",
-  //   icon: <Icon fontSize="small">receipt_long</Icon>,
-  //   route: "/billing",
-  //   component: <Billing />,
+  //   name: "Loading Page",
+  //   key: "N/A",
+  //   icon: <Icon fontSize="small">upload-image</Icon>,
+  //   route: "/loading",
+  //   component: <Loading />,
   // },
+
   {
     type: "collapse",
     name: "Diagnosis Report",
@@ -91,6 +85,15 @@ const routes = [
     route: "/notifications",
     component: <Notifications />,
   },
+  {
+    type: "collapse",
+    name: "Patient Logs",
+    key: "tables",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/Patient-logs",
+    component: <Tables />,
+  },
+
   {
     type: "collapse",
     name: "Case Studies",
