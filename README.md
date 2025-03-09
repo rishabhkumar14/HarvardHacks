@@ -1,5 +1,7 @@
 # AIrid - AI-Powered Stevens-Johnson Syndrome Diagnosis from Eye Images
 
+![AIrid Logo](./src/assets/titleImage.gif)
+
 ## Project Overview
 
 AIrid is a revolutionary medical diagnostic tool that uses deep learning to detect Stevens-Johnson Syndrome (SJS) from eye images. Traditionally, SJS diagnosis relied on skin manifestations, but our system enables early detection through ocular signs, potentially saving lives through faster intervention.
